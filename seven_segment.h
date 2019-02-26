@@ -2,13 +2,16 @@
 // Created by Daniel Copley on 2019-02-26.
 //
 
-#ifndef ARDUINOADC_INO_SEVEN_SEGMENT_H
-#define ARDUINOADC_INO_SEVEN_SEGMENT_H
+#ifndef G3_SEVEN_SEGMENT_H
+#define G3_SEVEN_SEGMENT_H
 
 
 class seven_segment {
+public:
+    seven_segment(int);
 
+private:
 };
 
 
-#endif //ARDUINOADC_INO_SEVEN_SEGMENT_H
+#endif //G3_SEVEN_SEGMENT_H

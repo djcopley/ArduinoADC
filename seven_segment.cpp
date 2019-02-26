@@ -3,3 +3,9 @@
 //
 
 #include "seven_segment.h"
+
+
+seven_segment::seven_segment()
+{
+
+}
