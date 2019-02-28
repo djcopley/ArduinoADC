@@ -4,14 +4,14 @@
  * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
  */
 
-// MACROS
-#define arrSize(arr) ((sizeof(arr)) / (sizeof(*arr)))
+// INCLUDES
+#include "lib/Display.h"
+#include "lib/HelperMacros.h"
 
 // PIN DECLARATIONS
 
 void setup()
 {
-
 }
 
 void loop()
