@@ -5,7 +5,7 @@
  */
 
 // MACROS
-#define arrSize(arr[]) sizeof(arr) / sizeof(*arr)
+#define arrSize(arr) ((sizeof(arr)) / (sizeof(*arr)))
 
 // PIN DECLARATIONS
 
