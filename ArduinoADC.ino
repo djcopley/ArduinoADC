@@ -5,16 +5,25 @@
  */
 
 // INCLUDES
-#include "lib/Display.h"
-#include "lib/HelperMacros.h"
+#include "SARADC.h"
+#include "HelperMacros.h"
 
 // PIN DECLARATIONS
+uint8_t readInPin = 2;
+uint8_t compareOutPin = 11;
+uint8_t resolution = 3;
+long timeConst = 10000;
 
+// Global Objects
+SARADC *AtoD;
 void setup()
 {
+    Serial.begin(115200);
+    AtoD = new SARADC(resolution, timeConst, compareOutPin, readInPin);
 }
 
 void loop()
 {
-
+    Serial.println(AtoD->readVoltage());
+    delay(1000);
 }
