@@ -1,5 +1,5 @@
 /**
- * Group 3 - Arduino Analog to Digital Converter
+ * Group 3 - Arduino Analog to analog Converter
  *
  * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
  */
@@ -9,13 +9,14 @@
 #include "HelperMacros.h"
 
 // PIN DECLARATIONS
-uint8_t readInPin = 2;
-uint8_t compareOutPin = 11;
-uint8_t resolution = 3;
+uint8_t readInPin = 7;
+uint8_t compareOutPin = 9;
+uint8_t resolution = 8;
 long timeConst = 10000;
 
 // Global Objects
 SARADC *AtoD;
+
 void setup()
 {
     Serial.begin(115200);
