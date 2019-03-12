@@ -14,20 +14,16 @@
 SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_t readInPin) : _resolution(resolution),
                                                                                                _compareOutPin(compareOutPin),
                                                                                                _readInPin(readInPin),
-                                                                                               _delayTime(5 * timeConst) {
-
+                                                                                               _delayTime(6 * timeConst)
+{
     pinMode(_compareOutPin, OUTPUT);
     pinMode(_readInPin, INPUT);
-
-    _lBound = 0;
-    _uBound = 255;
 
     if (resolution == 0) {
         resolution = 8;
     } else {
         _resolution = resolution;
     }
-    _bitArray = new byte[_resolution];
 }
 
 /**
@@ -36,28 +32,32 @@ SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_
  * @param upperBound
  * @return
  */
-int SARADC::findMidpoint(uint8_t lowerBound, uint8_t upperBound) {
-    return ((upperBound - lowerBound) / 2) + upperBound;
+int SARADC::findMidpoint(uint8_t lowerBound, uint8_t upperBound)
+{
+    return ((upperBound - lowerBound) / 2) + lowerBound;
 }
 
 /**
  *
  * @return
  */
-float SARADC::readVoltage() {
-
+float SARADC::readVoltage()
+{
     double voltage = 0;
+    uint8_t tmpLBound = _lBound;
+    uint8_t tmpUBound = _uBound;
 
-    for (int i; i < _resolution; i++) {
-        byte mid = findMidpoint(_lBound, _uBound);
+    for (int i = 0; i < _resolution; i++) {
+        uint8_t mid = findMidpoint(tmpLBound, tmpUBound);
         analogWrite(_compareOutPin, mid);
         delayMicroseconds(_delayTime);
-        _bitArray[i] = digitalRead(_delayTime);
-        if (_bitArray[i]) {
-            _lBound = mid;
-            voltage += (2.5 / pow(2, i));
+        bool state = !digitalRead(_readInPin);
+
+        if (state) {
+            tmpLBound = mid;
+            voltage += vFullScale / pow(2, i + 1); // (vFullScale / _resolution);
         } else {
-            _uBound = mid;
+            tmpUBound = mid;
         }
     }
     return voltage;

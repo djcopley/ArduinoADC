@@ -16,10 +16,12 @@ public:
     float readVoltage();
 
 private:
-    uint8_t _lBound, _uBound, _resolution;
-    uint8_t *_bitArray;
+    uint8_t _resolution;
     const long _delayTime; // Five time constants
+    const uint8_t _lBound = 0;
+    const uint8_t _uBound = 255;
     const uint8_t _compareOutPin, _readInPin;
+    const double vFullScale = 5;
 
     int findMidpoint(uint8_t lowerBound, uint8_t upperBound);
 };
