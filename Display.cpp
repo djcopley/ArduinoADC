@@ -21,10 +21,15 @@ void Display::displayNum(float value)
     double integer, fraction;
     fraction = modf(value, &integer) * 10;
 
-    Serial.println((uint8_t) round(fraction));
+    int decimal = (uint8_t) round(fraction);
+
+    if (decimal == 10) {
+        integer++;
+        decimal = 0;
+    }
 
     writeSevenSegment(0, (uint8_t) integer);
-    writeSevenSegment(1, (uint8_t) round(fraction));
+    writeSevenSegment(1, decimal);
 }
 
 void Display::writeSevenSegment(uint8_t display, uint8_t number)
