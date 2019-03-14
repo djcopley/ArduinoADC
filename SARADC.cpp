@@ -17,7 +17,7 @@ SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_
                                                                                                _delayTime(6 * timeConst)
 {
     pinMode(_compareOutPin, OUTPUT);
-    pinMode(_readInPin, INPUT);
+    pinMode(_readInPin, INPUT_PULLUP);
 
     if (resolution == 0) {
         resolution = 8;
