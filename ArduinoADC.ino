@@ -1,5 +1,5 @@
 /**
- * Group 3 - Arduino Analog to analog Converter
+ * Group 3 - Arduino Analog to Digital Converter
  *
  * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
  */
