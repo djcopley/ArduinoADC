@@ -1,14 +1,17 @@
-//
-// Created by djcopley on 3/9/19.
-//
+/**
+ * Group 3 - Arduino Analog to analog Converter
+ *
+ * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
+ */
 
 #include "SARADC.h"
 
 /**
+ * SARADC class class constructor.
  *
- * @param resolution
- * @param compareOutPin
- * @param readInPin
+ * @param resolution selectable ADC precision
+ * @param compareOutPin output pin #
+ * @param readInPin input pin #
  * @param timeConst time for RC filter to settle in microseconds
  */
 SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_t readInPin) : _resolution(resolution),
@@ -16,9 +19,11 @@ SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_
                                                                                                _readInPin(readInPin),
                                                                                                _delayTime(6 * timeConst)
 {
+    // Set pin modes
     pinMode(_compareOutPin, OUTPUT);
     pinMode(_readInPin, INPUT_PULLUP);
 
+    // If resolution is 0, set to max
     if (resolution == 0) {
         resolution = 8;
     } else {
@@ -27,10 +32,11 @@ SARADC::SARADC(uint8_t resolution, long timeConst, uint8_t compareOutPin, uint8_
 }
 
 /**
+ * Method finds the point between two bounds.
  *
- * @param lowerBound
- * @param upperBound
- * @return
+ * @param lowerBound of midpoint
+ * @param upperBound of midpoint
+ * @return midpoint
  */
 int SARADC::findMidpoint(uint8_t lowerBound, uint8_t upperBound)
 {
@@ -38,26 +44,27 @@ int SARADC::findMidpoint(uint8_t lowerBound, uint8_t upperBound)
 }
 
 /**
+ * Returns the voltage as a float.
  *
- * @return
+ * @return the voltage as a float
  */
 float SARADC::readVoltage()
 {
-    double voltage = 0;
+    float voltage = 0;
     uint8_t tmpLBound = _lBound;
     uint8_t tmpUBound = _uBound;
 
     for (int i = 0; i < _resolution; i++) {
         uint8_t mid = findMidpoint(tmpLBound, tmpUBound);
         analogWrite(_compareOutPin, mid);
-        delayMicroseconds(_delayTime);
+        delayMicroseconds(_delayTime); // Wait for the RC filter to stabilize
         bool state = !digitalRead(_readInPin);
 
         if (state) {
-            tmpLBound = mid;
-            voltage += vFullScale / pow(2, i + 1); // (vFullScale / _resolution);
+            tmpLBound = mid; // Set lower bound to current midpoint
+            voltage += vFullScale / pow(2, i + 1); // (vFullScale / 2^i);
         } else {
-            tmpUBound = mid;
+            tmpUBound = mid; // Set upper bound to current midpoint
         }
     }
     return voltage;

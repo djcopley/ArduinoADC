@@ -1,6 +1,8 @@
-//
-// Created by djcopley on 3/12/19.
-//
+/**
+ * Group 3 - Arduino Analog to analog Converter
+ *
+ * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
+ */
 
 #ifndef ARDUINOADC_DISPLAY_H
 #define ARDUINOADC_DISPLAY_H
@@ -14,6 +16,7 @@ public:
     void displayNum(float value);
 
 private:
+    // Pin conversions for each number
     const uint8_t NUMBER2PINOUT[16][4] =
             {
                     {LOW,  LOW,  LOW,  LOW},
@@ -34,8 +37,8 @@ private:
                     {HIGH, HIGH, HIGH, HIGH}
             };
     uint8_t _numDisplays, _displays[2][4]; // [display][pins]
-    const uint8_t _pinsPerDisplay = 4;
-    void writeSevenSegment(uint8_t display, uint8_t number);
+    const uint8_t _pinsPerDisplay = 4; // Number of pins per display
+    void writeSevenSegment(uint8_t display, uint8_t number); // Method writes to an individual display
 };
 
 
