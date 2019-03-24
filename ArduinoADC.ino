@@ -1,5 +1,5 @@
-/**
- * Group 3 - Arduino Analog to analog Converter
+/*
+ * Group 3 - Arduino Analog to Digital Converter
  *
  * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
  */
@@ -50,6 +50,9 @@ void loop()
     // Current Voltage
     newVoltage = AtoD->readVoltage();
 
+    // Print reading to serial port
+    Serial.println(newVoltage);
+  
     // If the voltage has changed, refresh the timer
     if (newVoltage != oldVoltage) {
         timeoutTimer = millis();
