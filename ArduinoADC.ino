@@ -1,4 +1,4 @@
-/**
+/*
  * Group 3 - Arduino Analog to Digital Converter
  *
  * Daniel Copley, Alenn Wright, Corey Cline, Jimmy Banh
@@ -7,7 +7,6 @@
 // INCLUDES
 #include "SARADC.h"
 #include "Display.h"
-#include "TimerOne.h"
 #include <avr/sleep.h>
 #include "HelperMacros.h"
 
@@ -33,7 +32,6 @@ unsigned long timeoutPeriod = 10000; // 10 seconds
 SARADC *AtoD;
 Display *display;
 
-
 void setup()
 {
     // Initialize objects
@@ -49,27 +47,38 @@ void setup()
 
 void loop()
 {
+    // Current Voltage
     newVoltage = AtoD->readVoltage();
 
+    // Print reading to serial port
     Serial.println(newVoltage);
-
+  
+    // If the voltage has changed, refresh the timer
     if (newVoltage != oldVoltage) {
         timeoutTimer = millis();
     }
 
+    // If the program times out, enter sleep mode
     if (millis() - timeoutTimer > timeoutPeriod) {
         sleep();
     }
 
+    // Update the display voltage
     display->displayNum(newVoltage);
     oldVoltage = newVoltage;
 }
 
+/**
+ * Wake function wakes the processor from sleep
+ */
 void wake()
 {
     sleep_disable();
 }
 
+/**
+ * Sleep function puts the processor to sleep
+ */
 void sleep()
 {
     // Enable LPM
